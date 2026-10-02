@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#25051f">
+<title>Birthday Surprise 🎂</title>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+  body{
+    min-height:100vh;overflow:hidden;color:#fff;text-align:center;
+    background:radial-gradient(ellipse at 50% 42%,#57123f 0%,#310925 45%,#160313 100%);
+  }
+  .page{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 14px 35px;isolation:isolate}
+  h1{font-size:clamp(2rem,7vw,3.2rem);line-height:1.1;margin:0 0 12px;text-shadow:0 3px 18px #ff6dbb88;animation:titleIn 1s both}
+  .subtitle{font-size:clamp(.95rem,3.7vw,1.15rem);color:#ffd8ed;margin:0 0 8px;opacity:.9}
+  .scene{position:relative;width:min(92vw,520px);height:min(67vh,540px);min-height:380px;display:flex;align-items:flex-end;justify-content:center}
+  .glow{position:absolute;width:78%;height:38%;bottom:8%;border-radius:50%;background:#ff69bd20;filter:blur(24px)}
+  .cake{position:relative;width:min(78vw,360px);height:290px;margin-bottom:45px;filter:drop-shadow(0 14px 16px #09000877);animation:cakeIn 1.4s cubic-bezier(.2,.8,.2,1) both}
+  .plate{position:absolute;bottom:0;left:4%;width:92%;height:28px;border-radius:50%;background:linear-gradient(#fff4fb,#d9a8c9 55%,#8f4777);box-shadow:0 9px 0 #7a2c61,0 13px 22px #08000688}
+  .tier{position:absolute;left:10%;width:80%;height:90px;bottom:19px;border-radius:18px 18px 25px 25px;background:linear-gradient(90deg,#d33f8c,#ff9ccc 22%,#f77db4 72%,#c52c7b);border:3px solid #ffe6f3;box-shadow:inset 0 -12px 0 #d9478b}
+  .tier:before{content:"";position:absolute;left:-3px;right:-3px;top:-13px;height:27px;border-radius:50%;background:linear-gradient(#fff9fd,#ffd7e9 70%,#f5a5cd);border:3px solid #fff0f8}
+  .tier.mid{left:20%;width:60%;height:78px;bottom:99px;background:linear-gradient(90deg,#d9d1dc,#fff7ff 30%,#eee2f0 75%,#c5b5ce);border-color:#fff}
+  .tier.mid:before{background:linear-gradient(#fff,#f4e9f5);border-color:#fff}
+  .tier.top{left:32%;width:36%;height:65px;bottom:169px;background:linear-gradient(90deg,#c63c83,#ffb1d5 35%,#ed77b0 80%,#b72b76);border-color:#ffeaf5}
+  .tier.top:before{background:linear-gradient(#fff,#ffd9ea);border-color:#fff}
+  .drip{position:absolute;top:8px;left:23%;width:18px;height:26px;background:#ffcae2;border-radius:0 0 12px 12px}
+  .drip.d2{left:60%;height:18px;width:14px}
+  .candle{position:absolute;z-index:4;left:50%;bottom:226px;transform:translateX(-50%);width:10px;height:39px;border-radius:3px;background:repeating-linear-gradient(135deg,#fff 0 6px,#ff8fbd 6px 12px);box-shadow:0 0 0 1px #f8d2e5}
+  .flame{position:absolute;left:50%;top:-22px;width:17px;height:23px;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 65%,#fff9ad 0 18%,#ffcf4b 42%,#ff6c25 72%,transparent 74%);border-radius:50% 50% 45% 45%;filter:drop-shadow(0 0 10px #ffbc42);animation:flicker .55s infinite alternate}
+  .cake-heart{position:absolute;z-index:5;left:50%;bottom:201px;transform:translateX(-50%);font-size:38px;text-shadow:0 0 14px #ff9acb;animation:heartbeat 1.2s infinite}
+  .heart,.balloon{position:absolute;pointer-events:none;z-index:-1;animation:floatUp linear infinite}
+  .heart{color:#ff86c5;text-shadow:0 0 14px #ff4ba5;font-size:clamp(18px,4vw,32px)}
+  .balloon{width:36px;height:46px;border-radius:50% 50% 46% 46%;background:var(--c);box-shadow:inset -7px -5px 0 #00000016, inset 7px 6px 0 #ffffff35;opacity:.9}
+  .balloon:before{content:"";position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);border-left:5px solid transparent;border-right:5px solid transparent;border-top:8px solid var(--c)}
+  .balloon:after{content:"";position:absolute;left:50%;top:52px;height:55px;border-left:1px solid #ffffff66}
+  .wish{position:absolute;bottom:12px;left:10px;right:10px;font-size:clamp(1rem,4vw,1.35rem);font-weight:600;color:#ffe1f0;text-shadow:0 2px 10px #0005;animation:fadeIn 2s 1s both}
+  .button{margin-top:5px;border:0;border-radius:999px;padding:13px 24px;background:linear-gradient(135deg,#ff8fc7,#ff4d9d);color:#4a0a2c;font-size:1rem;font-weight:800;box-shadow:0 8px 25px #ff4d9d45;cursor:pointer}
+  .button:active{transform:scale(.97)}
+  .message{position:fixed;inset:0;z-index:10;display:none;align-items:center;justify-content:center;padding:24px;background:#12000fd9;backdrop-filter:blur(8px)}
+  .message.show{display:flex;animation:fadeIn .35s both}
+  .letter{width:min(100%,420px);padding:28px 22px;border:1px solid #ffb4d8aa;border-radius:24px;background:linear-gradient(145deg,#641449,#2c0927);box-shadow:0 20px 70px #0008}
+  .letter h2{font-size:2rem;margin:0 0 12px;color:#ffc5e1}
+  .letter p{line-height:1.7;color:#fff0f8}
+  .close{background:#fff0f8;color:#51113b;border:0;border-radius:20px;padding:10px 20px;font-weight:700}
+  @keyframes floatUp{0%{transform:translateY(110vh) rotate(0deg);opacity:0}10%{opacity:.9}90%{opacity:.8}100%{transform:translateY(-130vh) rotate(28deg);opacity:0}}
+  @keyframes flicker{from{transform:translateX(-50%) rotate(-5deg) scale(.94)}to{transform:translateX(-50%) rotate(5deg) scale(1.08)}}
+  @keyframes heartbeat{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.15)}}
+  @keyframes titleIn{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes cakeIn{from{opacity:0;transform:translateY(45px) scale(.8)}to{opacity:1;transform:translateY(0) scale(1)}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @media(max-height:700px){.page{padding-top:12px;padding-bottom:12px}h1{font-size:2rem}.scene{height:58vh;min-height:310px}.cake{transform:scale(.82);transform-origin:bottom center;margin-bottom:35px}.wish{bottom:4px}}
+  @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+</style>
+</head>
+<body>
+<main class="page">
+  <h1>Birthday Surprise 🎂</h1>
+  <p class="subtitle">A little surprise made just for you 💗</p>
+  <section class="scene" aria-label="Animated pink birthday cake">
+    <div class="glow"></div>
+    <div class="cake">
+      <div class="plate"></div>
+      <div class="tier"></div>
+      <div class="tier mid"><span class="drip"></span><span class="drip d2"></span></div>
+      <div class="tier top"></div>
+      <div class="candle"><div class="flame"></div></div>
+      <div class="cake-heart">💗</div>
+    </div>
+    <div class="wish" id="wish">Make a wish and smile! ✨</div>
+  </section>
+  <button class="button" id="surpriseBtn">Open Your Surprise 💌</button>
+</main>
+<div class="message" id="message">
+  <div class="letter">
+    <h2>Happy Birthday! 🎉</h2>
+    <p id="letterText">May your day be full of love, laughter, sweet moments and beautiful memories. You deserve lots of happiness today and always! 💖</p>
+    <button class="close" id="closeBtn">Close 💗</button>
+  </div>
+</div>
+<script>
+  // Floating hearts and balloons
+  const colors = ['#ff7dbb','#ffb6d9','#ffd76b','#d8b8ff','#fff0f8'];
+  for (let i = 0; i < 24; i++) {
+    const el = document.createElement('span');
+    const isBalloon = i % 3 === 0;
+    el.className = isBalloon ? 'balloon' : 'heart';
+    if (isBalloon) el.style.setProperty('--c', colors[i % colors.length]);
+    else el.textContent = ['♥','♡','💗'][i % 3];
+    el.style.left = (Math.random() * 96) + '%';
+    el.style.animationDuration = (9 + Math.random() * 13) + 's';
+    el.style.animationDelay = (-Math.random() * 20) + 's';
+    if (!isBalloon) el.style.fontSize = (16 + Math.random() * 22) + 'px';
+    document.body.appendChild(el);
+  }
+  const message = document.getElementById('message');
+  document.getElementById('surpriseBtn').addEventListener('click', () => message.classList.add('show'));
+  document.getElementById('closeBtn').addEventListener('click', () => message.classList.remove('show'));
+  message.addEventListener('click', e => { if (e.target === message) message.classList.remove('show'); });
+
+  // PERSONALIZE HERE: change the name and message below.
+  // Example: document.querySelector('h1').textContent = 'Happy Birthday, Ayesha! 🎂';
+  // Example: document.getElementById('letterText').textContent = 'Your own birthday message here 💖';
+</script>
+</body>
+</html>
